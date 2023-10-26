@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../elements/button";
+import Counter from "./Counter";
 
 const CardProduct = (props) => {
   const { children } = props;

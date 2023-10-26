@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CardProduct from "../components/fragments/CardProduct";
 import Button from "../components/elements/button";
+import Counter from "../components/fragments/Counter";
 
 const products = [
   {
@@ -68,8 +69,9 @@ const Products = () => {
           return item;
         })
       );
+    } else {
+      setCart([...cart, { id, qty: 1 }]);
     }
-    setCart([...cart, { id, qty: 1 }]);
   };
 
   return (
@@ -79,6 +81,11 @@ const Products = () => {
         <Button classname="mt-1 py-1" onClick={handleLogout}>
           Logout
         </Button>
+        {/* <div className="flex justify-center py-5">
+          <div className="mt-5 flex-justify-center">
+            <Counter />
+          </div>
+        </div> */}
       </div>
       {/* <div className="grid grid-cols-3 gap-y-10 mx-auto py-5 px-10 justify-items-center items-center bg-black gap-3"> */}
       <div className="flex justify-center py-5 bg-black">

@@ -6,6 +6,26 @@ export class Counter extends Component {
     this.state = {
       count: 0,
     };
+    console.log("constructor");
+  }
+
+  // componentDidMount
+  // dieksekusi pada saat mounting / saat pembuatan komponen tsb
+  // biasanya digunakan untuk ambil data via api
+  componentDidMount() {
+    this.setState({ count: 1 });
+    console.log("componentDidMount");
+  }
+
+  // componentDidUpdate
+  // melihat perubahan yang terjadi pada komponen ts
+  // butuh sebuah kondisi
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate");
+    if (this.state.count === 10) {
+      this.setState({ count: 0 });
+    }
   }
   render() {
     const addNumber = () => {
@@ -18,6 +38,7 @@ export class Counter extends Component {
           +
         </button>
         <h1 className="ml-5">{this.state.count}</h1>
+        {console.log("render")}
       </div>
     );
   }
