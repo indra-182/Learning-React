@@ -46,7 +46,7 @@ const Products = () => {
         })
       );
     } else {
-      setCart([...cart, { id, qty: 2 }]);
+      setCart([...cart, { id, qty: 1 }]);
     }
   };
 
