@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardProduct from "../components/fragments/CardProduct";
 import Button from "../components/elements/button";
 import Counter from "../components/fragments/Counter";
@@ -54,10 +54,25 @@ const Products = () => {
   const handleLogout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
+    localStorage.removeItem("cart");
     window.location.href = "/login";
   };
 
   const [cart, setCart] = useState([]);
+  const [totalPrice, setPrice] = useState(0);
+
+  useEffect(() => {
+    if (cart.length === 0) {
+      setCart(JSON.parse(localStorage.getItem("cart")) || []);
+    } else {
+      const total = cart.reduce((acc, item) => {
+        const product = products.find((product) => product.id === item.id);
+        return acc + product.price * item.qty;
+      }, 0);
+      setPrice(total);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, [cart]);
 
   const handleAddToCart = (id) => {
     if (cart.find((item) => item.id === id)) {
@@ -144,6 +159,21 @@ const Products = () => {
                   </tr>
                 );
               })}
+              <tr>
+                <td colSpan={3}>
+                  <b>Total Price</b>
+                </td>
+                <td>
+                  <b>
+                    {" "}
+                    Rp{" "}
+                    {totalPrice.toLocaleString("id-ID", {
+                      styles: "currency",
+                      currency: "IDR",
+                    })}
+                  </b>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
