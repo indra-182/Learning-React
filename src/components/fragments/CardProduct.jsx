@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../elements/button";
 import Counter from "./Counter";
+import { Link } from "react-router-dom";
 
 const CardProduct = (props) => {
   const { children } = props;
@@ -8,6 +9,14 @@ const CardProduct = (props) => {
     <div className="w-full max-w-sm bg-gray-800 border border-gray-700 rounded-lg shadow mx-2 my-2 flex flex-col justify-between">
       {children}
     </div>
+  );
+};
+const Header = (props) => {
+  const { image, id } = props;
+  return (
+    <Link to={`/product/${id}`}>
+      <img src={image} alt="product" className="p-8 rounded-t-lg h-72 w-full" />
+    </Link>
   );
 };
 
@@ -42,15 +51,6 @@ const Footer = (props) => {
         Add to Cart
       </Button>
     </>
-  );
-};
-
-const Header = (props) => {
-  const { image } = props;
-  return (
-    <a href="#">
-      <img src={image} alt="product" className="p-8 rounded-t-lg h-72 w-full" />
-    </a>
   );
 };
 
