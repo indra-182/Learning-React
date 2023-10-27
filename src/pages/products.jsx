@@ -3,28 +3,19 @@ import CardProduct from "../components/fragments/CardProduct";
 import Button from "../components/elements/button";
 // import Counter from "../components/fragments/Counter";
 import { getProducts } from "../components/services/product.service";
-import { getUsername } from "../components/services/auth.service";
+import useLogin from "../hooks/useLogin";
 
-const Products = () => {
+const ProductsPage = () => {
   const [cart, setCart] = useState([]);
   const [totalPrice, setPrice] = useState(0);
   const [products, setProducts] = useState([]);
-  const [username, setUsername] = useState("");
+  const username = useLogin();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setUsername(getUsername(token));
-    } else {
-      window.location.href = "/login";
-    }
     getProducts((data) => {
       setProducts(data);
     });
-    setCart(JSON.parse(localStorage.getItem("cart")) || []);
-  }, []);
 
-  useEffect(() => {
     if (products.length > 0 && cart.length > 0) {
       const total = cart.reduce((acc, item) => {
         const product = products.find((product) => product.id === item.id);
@@ -32,8 +23,10 @@ const Products = () => {
       }, 0);
       setPrice(total);
       localStorage.setItem("cart", JSON.stringify(cart));
+    } else {
+      setCart(JSON.parse(localStorage.getItem("cart")) || []);
     }
-  }, [cart, products]);
+  }, [JSON.stringify(cart), products]);
 
   const handleAddToCart = (id) => {
     if (cart.find((item) => item.id === id)) {
@@ -79,11 +72,6 @@ const Products = () => {
         <Button classname="mt-1 py-1" onClick={handleLogout}>
           Logout
         </Button>
-        {/* <div className="flex justify-center py-5">
-          <div className="mt-5 flex-justify-center">
-            <Counter />
-          </div>
-        </div> */}
       </div>
       {/* <div className="grid grid-cols-3 gap-y-10 mx-auto py-5 px-10 justify-items-center items-center bg-black gap-3"> */}
       <div className="flex justify-center py-5 px-10 bg-black">
@@ -104,11 +92,6 @@ const Products = () => {
         </div>
         <div className="w-2/6">
           <h1 className="text-3xl font-bold text-blue-600 ml-5 mb-2">Cart</h1>
-          {/* <ul>
-            {cart.map((item) => {
-              return <li key={item.id}>{item.id}</li>;
-            })}
-          </ul> */}
           <table className="text-left table-auto border-separate border-spacing-x-5 text-white">
             <thead>
               <tr>
@@ -146,7 +129,7 @@ const Products = () => {
               <tr ref={totalPriceRef}>
                 <td className="font-bold" colSpan={3}>
                   Total Price
-                </td>{" "}
+                </td>
                 <td className="font-bold">
                   ${" "}
                   {totalPrice.toLocaleString("id-ID", {
@@ -163,4 +146,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ProductsPage;
