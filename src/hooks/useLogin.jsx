@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getUsername } from "../components/services/auth.service";
 
 const useLogin = () => {
